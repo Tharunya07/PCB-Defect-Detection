@@ -8,7 +8,6 @@
 
 A web application that demonstrates how machine learning and computer vision can be used to detect defects in printed circuit boards (PCBs). This project is intended for educational purposes to show how computers can help in manufacturing quality control.
 
-![Example Detection](static/img/demo_screenshot.jpg)
 
 ## Overview
 
