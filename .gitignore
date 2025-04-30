@@ -1,0 +1,22 @@
+# Virtual environment
+venv/
+env/
+
+# Uploaded and generated images
+static/uploads/*
+static/debug/*
+!static/uploads/.gitkeep
+!static/debug/.gitkeep
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Development tools
+.vscode/
+.idea/
+
+# Optional: exclude generated model files
+# models/pcb_defect_model.h5

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB Defect Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-5">
+            <h1 class="display-4">PCB Defect Detection</h1>
+            <p class="lead">Educational Demo for Manufacturing Quality Control</p>
+        </header>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Upload PCB Image</h3>
+                    </div>
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <div class="alert alert-danger">
+                                    {% for message in messages %}
+                                        {{ message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+
+                        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Select PCB image to analyze:</label>
+                                <input class="form-control" type="file" id="file" name="file" accept=".jpg,.jpeg,.png" required>
+                                <div class="form-text">Upload an image of a PCB to detect possible defects</div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Analyze PCB</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-info text-white">
+                        <h3 class="card-title mb-0">About This Demo</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>This application demonstrates how computer vision and machine learning can be used to automatically detect defects in printed circuit boards (PCBs).</p>
+                        <p>The model is trained to identify 6 common types of PCB defects:</p>
+                        <ul>
+                            <li><strong>Missing Hole</strong> - A hole that should be present is missing</li>
+                            <li><strong>Mouse Bite</strong> - Part of the copper is damaged, creating a bite-like appearance</li>
+                            <li><strong>Open Circuit</strong> - A break in the circuit path that should be connected</li>
+                            <li><strong>Short</strong> - Unintended connection between two points</li>
+                            <li><strong>Spur</strong> - Unwanted projection from a conductor</li>
+                            <li><strong>Spurious Copper</strong> - Unwanted copper in areas that should be clear</li>
+                        </ul>
+                        <p class="text-muted"><small>Note: For educational purposes only. This demo is not intended for production use.</small></p>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="card-title mb-0">Test with Sample Images</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Don't have a PCB image? Try our sample defect types:</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{{ url_for('test_prediction', defect_type='missing_hole') }}" class="btn btn-outline-primary">Missing Hole</a>
+                            <a href="{{ url_for('test_prediction', defect_type='mouse_bite') }}" class="btn btn-outline-primary">Mouse Bite</a>
+                            <a href="{{ url_for('test_prediction', defect_type='open_circuit') }}" class="btn btn-outline-primary">Open Circuit</a>
+                            <a href="{{ url_for('test_prediction', defect_type='short') }}" class="btn btn-outline-primary">Short</a>
+                            <a href="{{ url_for('test_prediction', defect_type='spur') }}" class="btn btn-outline-primary">Spur</a>
+                            <a href="{{ url_for('test_prediction', defect_type='spurious_copper') }}" class="btn btn-outline-primary">Spurious Copper</a>
+                            <a href="{{ url_for('test_prediction', defect_type='normal') }}" class="btn btn-outline-success">Normal (No Defect)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center mt-5 mb-3">
+            <p class="text-muted">&copy; 2025 PCB Defect Detection Demo | Educational Project</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

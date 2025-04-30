@@ -1,0 +1,86 @@
+/* Main Styles for PCB Defect Detection Demo */
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+header h1 {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-header {
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Result page specific styles */
+.image-container {
+    background-color: #f1f3f5;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.image-container img {
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.result-details {
+    height: 100%;
+    background-color: #f8f9fa;
+}
+
+.defect-info {
+    background-color: #f1f3f5;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.progress {
+    height: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .image-container {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Animation for progress bars */
+@keyframes progressAnimation {
+    0% {
+        width: 0%;
+    }
+}
+
+.progress-bar {
+    animation: progressAnimation 1s ease-in-out;
+}

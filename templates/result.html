@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB Analysis Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-5">
+            <h1 class="display-4">PCB Defect Analysis Results</h1>
+            <p class="lead">Educational Demo for Manufacturing Quality Control</p>
+        </header>
+
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Analysis Complete</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="image-container text-center mb-3">
+                                    {% if is_sample %}
+                                    <img src="{{ url_for('static', filename='img/' + image_filename) }}" class="img-fluid rounded" alt="PCB Image" style="max-height: 400px;">
+                                    {% else %}
+                                    <img src="{{ url_for('static', filename='uploads/' + image_filename) }}" class="img-fluid rounded" alt="PCB Image" style="max-height: 400px;">
+                                    {% endif %}
+                                </div>
+                                {% if has_debug %}
+                                <div class="text-center">
+                                    <a href="{{ url_for('view_debug_image') }}" class="btn btn-outline-info btn-sm">
+                                        <i class="bi bi-eye"></i> View Feature Detection
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="result-details p-3 border rounded">
+                                    <h4 class="mb-3">Detection Results</h4>
+                                    
+                                    {% if defect_class == 'normal' %}
+                                    <div class="alert alert-success">
+                                        <h5 class="alert-heading">No Defect Detected</h5>
+                                        <p>This PCB appears to be functioning normally with no visible defects.</p>
+                                        <div class="progress mt-2">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ confidence }}%;" aria-valuenow="{{ confidence }}" aria-valuemin="0" aria-valuemax="100">{{ confidence }}%</div>
+                                        </div>
+                                        <p class="mt-2 mb-0"><small>Confidence level: {{ confidence }}%</small></p>
+                                    </div>
+                                    {% else %}
+                                    <div class="alert alert-danger">
+                                        <h5 class="alert-heading">Defect Detected: {{ defect_class|replace('_', ' ')|title }}</h5>
+                                        <div class="progress mt-2">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ confidence }}%;" aria-valuenow="{{ confidence }}" aria-valuemin="0" aria-valuemax="100">{{ confidence }}%</div>
+                                        </div>
+                                        <p class="mt-2 mb-0"><small>Confidence level: {{ confidence }}%</small></p>
+                                    </div>
+                                    
+                                    <div class="defect-info mt-3">
+                                        <h5>About this defect:</h5>
+                                        {% if defect_class == 'missing_hole' %}
+                                        <p>A missing hole defect occurs when a required hole in the PCB is not drilled or is blocked. This can prevent proper component mounting and electrical connections.</p>
+                                        {% elif defect_class == 'mouse_bite' %}
+                                        <p>Mouse bite defects appear as semi-circular nibbles taken out of the edges of conductors. These can weaken connections and cause future failures.</p>
+                                        {% elif defect_class == 'open_circuit' %}
+                                        <p>Open circuit defects represent broken connections in traces that should be continuous. This prevents electrical flow and causes circuit failure.</p>
+                                        {% elif defect_class == 'short' %}
+                                        <p>Short circuit defects occur when two conductors that should be separate are connected. This can cause improper current flow and damage components.</p>
+                                        {% elif defect_class == 'spur' %}
+                                        <p>Spur defects are small protrusions from a conductor. They can lead to short circuits, especially in high-density boards.</p>
+                                        {% elif defect_class == 'spurious_copper' %}
+                                        <p>Spurious copper defects are unwanted copper remnants in areas that should be clear. These can cause short circuits and interference.</p>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <div class="action-buttons mt-4">
+                                        {% if defect_class != 'normal' %}
+                                        <div class="alert alert-warning">
+                                            <strong>Recommendation:</strong> This PCB should be flagged for inspection and potential rework.
+                                        </div>
+                                        {% else %}
+                                        <div class="alert alert-info">
+                                            <strong>Recommendation:</strong> This PCB appears to meet quality standards and can proceed to the next stage.
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-grid gap-2">
+                            <a href="{{ url_for('index') }}" class="btn btn-primary">Analyze Another PCB</a>
+                            {% if has_debug %}
+                            <a href="{{ url_for('view_debug_image') }}" class="btn btn-outline-secondary">View Feature Detection</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="text-center mt-5 mb-3">
+            <p class="text-muted">&copy; 2025 PCB Defect Detection Demo | Educational Project</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
